@@ -1,0 +1,12 @@
+name: orientations
+channels:
+  - conda-forge
+dependencies:
+  - hoomd >= 4.3
+  - cmeutils
+  - numpy
+  - rowan
+  - pickle
+  - pandas
+  - matplotlib
+  - jupyter
