@@ -1,5 +1,5 @@
 import hoomd
-
+import numpy as np
 def create_rigid_simulation(orientations, positions, n_rigids, rel_const_pos, pps_ff, init_gsd):
     rigid_simulation = hoomd.Simulation(device=hoomd.device.auto_select(), seed=1)
     rigid_simulation.create_state_from_gsd(filename=init_gsd)
@@ -47,8 +47,11 @@ def create_rigid_simulation(orientations, positions, n_rigids, rel_const_pos, pp
         data.particles.position[rigid_tags] = positions
 
     rigid_simulation.run(0)
-    print('potential energy: ', rigid_simulation.operations.computes[0].potential_energy)
+    return rigid_simulation
+
+def rigid_energy_forces(rigid_simulation,n_rigids):
+    energy = rigid_simulation.operations.computes[0].potential_energy
     with rigid_simulation._state.cpu_local_snapshot as snap:
         rtag = snap.particles.rtag[:n_rigids]
-        print('force: ', snap.particles.net_force[rtag])
-    return rigid_simulation
+        force = np.copy(snap.particles.net_force[rtag])
+    return energy, force

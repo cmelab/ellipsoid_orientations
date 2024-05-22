@@ -25,3 +25,19 @@ def rotate_quaternion(q, theta, axis):
     ]
 
     return rowan.normalize(q_prime)
+
+def vector_angle(r1, r2, degree=True):
+    dot = np.dot(r1, r2)
+    l_r1 = np.linalg.norm(r1)
+    l_r2 = np.linalg.norm(r2)
+    angle = np.arccos(dot / (l_r1 * l_r2))
+    if degree:
+        return np.rad2deg(angle)
+    return angle
+    
+def dr_orientation_angles(dr, q, degree=True):
+    R = rowan.to_matrix(q)
+    angles = []
+    for i in range(3):
+       angles.append(vector_angle(dr, R[:, i], degree=degree))
+    return angles

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.swp
+*.egg-info/
+eggs/
+.eggs/
+*.egg
+# Jupyter Notebook
+.ipynb_checkpoints
+
